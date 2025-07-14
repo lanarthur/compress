@@ -13,16 +13,21 @@ import (
 )
 
 type frameHeader struct {
-	ContentSize   uint64
-	WindowSize    uint32
-	SingleSegment bool
-	Checksum      bool
-	DictID        uint32
+	ContentSize      uint64
+	WindowSize       uint32
+	SingleSegment    bool
+	Checksum         bool
+	DictID           uint32
+	forceContentSize bool
 }
 
 const maxHeaderSize = 14
 
 func (f frameHeader) appendTo(dst []byte) []byte {
+	// 修正：forceContentSize时强制SingleSegment=true
+	if f.forceContentSize {
+		f.SingleSegment = true
+	}
 	dst = append(dst, frameMagic...)
 	var fhd uint8
 	if f.Checksum {
@@ -30,6 +35,9 @@ func (f frameHeader) appendTo(dst []byte) []byte {
 	}
 	if f.SingleSegment {
 		fhd |= 1 << 5
+	}
+	if f.forceContentSize {
+		fhd |= 1 << 5 // 强制 content size present
 	}
 
 	var dictIDContent []byte
@@ -59,11 +67,14 @@ func (f frameHeader) appendTo(dst []byte) []byte {
 	if f.ContentSize >= 0xffffffff {
 		fcs++
 	}
-
+	if f.forceContentSize && fcs == 0 {
+		fcs = 0 // 明确写1字节
+	}
 	fhd |= fcs << 6
 
 	dst = append(dst, fhd)
 	if !f.SingleSegment {
+		// 只有不是 single segment 时才写 window descriptor
 		const winLogMin = 10
 		windowLog := (bits.Len32(f.WindowSize-1) - winLogMin) << 3
 		dst = append(dst, uint8(windowLog))
@@ -71,12 +82,10 @@ func (f frameHeader) appendTo(dst []byte) []byte {
 	if f.DictID > 0 {
 		dst = append(dst, dictIDContent...)
 	}
+
 	switch fcs {
 	case 0:
-		if f.SingleSegment {
-			dst = append(dst, uint8(f.ContentSize))
-		}
-		// Unless SingleSegment is set, framessizes < 256 are not stored.
+		dst = append(dst, uint8(f.ContentSize))
 	case 1:
 		f.ContentSize -= 256
 		dst = append(dst, uint8(f.ContentSize), uint8(f.ContentSize>>8))

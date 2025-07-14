@@ -14,21 +14,22 @@ type EOption func(*encoderOptions) error
 
 // options retains accumulated state of multiple options.
 type encoderOptions struct {
-	concurrent      int
-	level           EncoderLevel
-	single          *bool
-	pad             int
-	blockSize       int
-	windowSize      int
-	crc             bool
-	fullZero        bool
-	noEntropy       bool
-	allLitEntropy   bool
-	customWindow    bool
-	customALEntropy bool
-	customBlockSize bool
-	lowMem          bool
-	dict            *dict
+	concurrent       int
+	level            EncoderLevel
+	single           *bool
+	pad              int
+	blockSize        int
+	windowSize       int
+	crc              bool
+	fullZero         bool
+	noEntropy        bool
+	allLitEntropy    bool
+	customWindow     bool
+	customALEntropy  bool
+	customBlockSize  bool
+	lowMem           bool
+	dict             *dict
+	forceContentSize bool
 }
 
 func (o *encoderOptions) setDefault() {
@@ -334,6 +335,16 @@ func WithEncoderDictRaw(id uint32, content []byte) EOption {
 			return fmt.Errorf("dictionary of size %d > 2GiB too large", len(content))
 		}
 		o.dict = &dict{id: id, content: content, offsets: [3]int{1, 4, 8}}
+		return nil
+	}
+}
+
+// WithForceContentSize will force the encoder to always include the content size
+// in the frame header, even for small data that would normally not include it.
+// This ensures that decoders can always determine the original data size.
+func WithForceContentSize(b bool) EOption {
+	return func(o *encoderOptions) error {
+		o.forceContentSize = b
 		return nil
 	}
 }

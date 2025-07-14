@@ -527,11 +527,12 @@ func (e *Encoder) encodeAll(enc encoder, src, dst []byte) []byte {
 		single = *e.o.single
 	}
 	fh := frameHeader{
-		ContentSize:   uint64(len(src)),
-		WindowSize:    uint32(enc.WindowSize(int64(len(src)))),
-		SingleSegment: single,
-		Checksum:      e.o.crc,
-		DictID:        e.o.dict.ID(),
+		ContentSize:      uint64(len(src)),
+		WindowSize:       uint32(enc.WindowSize(int64(len(src)))),
+		SingleSegment:    single,
+		Checksum:         e.o.crc,
+		DictID:           e.o.dict.ID(),
+		forceContentSize: e.o.forceContentSize,
 	}
 
 	// If less than 1MB, allocate a buffer up front.

@@ -13,7 +13,7 @@ import (
 	rdebug "runtime/debug"
 	"sync"
 
-	"github.com/klauspost/compress/zstd/internal/xxhash"
+	"github.com/lanarthur/compress/zstd/internal/xxhash"
 )
 
 // Encoder provides encoding to Zstandard.

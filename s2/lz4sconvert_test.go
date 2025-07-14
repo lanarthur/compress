@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/klauspost/compress/internal/lz4ref"
-	"github.com/klauspost/compress/internal/snapref"
+	"github.com/lanarthur/compress/internal/lz4ref"
+	"github.com/lanarthur/compress/internal/snapref"
 )
 
 func TestLZ4sConverter_ConvertBlock(t *testing.T) {

@@ -16,8 +16,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/klauspost/compress/internal/fuzz"
-	"github.com/klauspost/compress/zstd"
+	"github.com/lanarthur/compress/internal/fuzz"
+	"github.com/lanarthur/compress/zstd"
 )
 
 func TestDict(t *testing.T) {

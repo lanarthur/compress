@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/klauspost/compress/s2"
-	"github.com/klauspost/compress/zstd"
+	"github.com/lanarthur/compress/s2"
+	"github.com/lanarthur/compress/zstd"
 )
 
 func ExampleMakeDict() {

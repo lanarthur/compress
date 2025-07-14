@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/klauspost/compress/internal/fuzz"
+	"github.com/lanarthur/compress/internal/fuzz"
 )
 
 func FuzzReader(f *testing.F) {

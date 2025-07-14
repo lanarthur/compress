@@ -20,7 +20,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/klauspost/compress/internal/godebug"
+	"github.com/lanarthur/compress/internal/godebug"
 )
 
 var (

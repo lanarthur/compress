@@ -14,7 +14,7 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/klauspost/compress/internal/race"
+	"github.com/lanarthur/compress/internal/race"
 )
 
 const (

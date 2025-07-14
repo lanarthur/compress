@@ -9,8 +9,8 @@ import (
 	"io"
 	"testing"
 
-	"github.com/klauspost/compress/internal/fuzz"
-	"github.com/klauspost/compress/internal/snapref"
+	"github.com/lanarthur/compress/internal/fuzz"
+	"github.com/lanarthur/compress/internal/snapref"
 )
 
 func FuzzEncodingBlocks(f *testing.F) {

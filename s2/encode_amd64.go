@@ -6,7 +6,7 @@ package s2
 import (
 	"sync"
 
-	"github.com/klauspost/compress/internal/race"
+	"github.com/lanarthur/compress/internal/race"
 )
 
 const hasAmd64Asm = true

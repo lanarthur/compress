@@ -19,7 +19,7 @@ import (
 	"testing/fstest"
 	"time"
 
-	"github.com/klauspost/compress/zip/internal/obscuretestdata"
+	"github.com/lanarthur/compress/zip/internal/obscuretestdata"
 )
 
 type ZipTest struct {
